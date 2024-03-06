@@ -28,9 +28,8 @@ router.post("/signup", async (req, res) => {
     })
 
     if (existingUser) {
-        console.log(existingUser)
         return res.status(411).json({
-            message: "Email already taken/Incorrect inputs"
+            message: "Email already taken"
         })
     }
 
@@ -42,10 +41,10 @@ router.post("/signup", async (req, res) => {
     })
     const userId = user._id;
 
-    // await Account.create({
-    //     userId,
-    //     balance: 1 + Math.random() * 10000
-    // })
+    await Account.create({
+        userId,
+        balance: 1 + Math.random() * 10000
+    })
 
     const token = jwt.sign({
         userId
@@ -67,7 +66,7 @@ router.post("/signin", async (req, res) => {
     const { success } = signinBody.safeParse(req.body)
     if (!success) {
         return res.status(411).json({
-            message: "Email already taken / Incorrect inputs"
+            message: "Incorrect inputs"
         })
     }
 
